@@ -118,31 +118,4 @@ router.get('/bot', (req, res) => {
     */
 });
 
-router.get('/verifica', function (req, res) {
-
-        res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-
-    if(!req.query.link){
-        return res.send('erro');
-    }
-
-    url = req.query.link;
-    //url = "https://www.indeed.com.br/viewjob?jk=8d38097e6f54685c&from=recjobs&vjtk=1cpcb8ih6d4gv800";
-
-    request.get(url, (error, response, body) => {
-        if (error) return reject(error);
-        var jsonData = body;
-        var salario = jsonData.substr(jsonData.indexOf('jobsearch-JobMetadataHeader-item') + 'jobsearch-JobMetadataHeader-item'.length + 5, 6);
-        var tipo = jsonData.substr(jsonData.indexOf('jobsearch-JobInfoHeader-title') + 'jobsearch-JobInfoHeader-title'.length + 2, 8);
-        var descricao = jsonData.substr(jsonData.indexOf('jobsearch-JobComponent-description') + 'jobsearch-JobComponent-description'.length + 18, jsonData.substr(jsonData.indexOf('jobsearch-JobComponent-description') + 'jobsearch-JobComponent-description'.length + 2, 1000).indexOf('</div>'));
-        return res.json({
-            salario,
-            tipo,
-            descricao,
-        });
-    });
- });
-
-
 module.exports = router;
